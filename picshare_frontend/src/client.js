@@ -8,6 +8,9 @@ export const client = createClient({
   useCdn: true,
   token: import.meta.env.VITE_APP_SANITY_TOKEN,
 });
+console.log("Sanity Project ID:", import.meta.env.VITE_APP_SANITY_PROJECT_ID);
+console.log("Sanity Token:", import.meta.env.VITE_APP_SANITY_TOKEN);
+
 
 const builder = imageUrlBuilder(client);
 export const urlfor = (source) => builder.image(source);
