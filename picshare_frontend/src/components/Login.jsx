@@ -3,11 +3,34 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useNavigate } from 'react-router-dom';
 import shareVideo from '../assets/share.mp4';
 import logo from '../assets/logowhite.png';
+import { jwtDecode } from "jwt-decode";
+import { client } from '../client.js'
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const handleGoogleSuccess = (credentialResponse) => {
-    console.log('Login Successful:', credentialResponse);
-    //localStorage.setItem('user', JSON.stringify(response.profileObj))
+  console.log('Login Successful:', credentialResponse);
+
+  const decoded = jwtDecode(credentialResponse.credential);
+  console.log('Decoded user info: ', decoded);
+
+  localStorage.setItem('user', JSON.stringify(decoded));
+
+  const {name, sub : googleId, picture : imageUrl } = decoded;
+
+  const doc = {
+      _id : googleId,
+      _type : 'user',
+      userName : name,
+      image : imageUrl,
+  };
+
+  client.createIfNotExists(doc)
+  .then(() => {
+    navigate('/', {replace : true})
+  })
+
   };
   const handleGoogleError = () => {
     console.log('Login Failed');
