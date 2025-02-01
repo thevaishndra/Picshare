@@ -29,7 +29,7 @@ export const searchQuery = (search) => {
     return query;
 }//adding asterisk means to search and match word even before completing it
 
-export const feedQuery = `*[_type == 'pin'] | order(_createAt desc){
+export const feedQuery = `*[_type == 'pin'] | order(_createdAt desc){
 image {
         asset -> {
           url

@@ -30,9 +30,7 @@ const Feed = () => {
   }, [categoryId])
 
   if(loading) return <Spinner message="we are adding new pins" />
-  return (
-    <div>Feed</div>
-  )
+  return <div>{pins && <MasonryLayout pins={pins} />}</div>;
 }
 
 export default Feed
