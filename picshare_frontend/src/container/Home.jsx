@@ -8,22 +8,15 @@ import { userQuery } from '../utils/data';
 import { client } from '../client';
 import Pins from './Pins';
 import logo from '../assets/logo.png';
+import { fetchUser } from '../utils/fetchUser';
 
 const Home = () => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
   const [user, setUser] = useState();
   const scrollRef = useRef(null);
-
-  const storedUser = localStorage.getItem("user");
-  const userInfo =
-    storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null;
+   const userInfo = fetchUser();
 
   useEffect(() => {
-    // Get user data from local storage
-    const storedUser = localStorage.getItem("user");
-    const userInfo =
-      storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null;
-
     // Check if user info exists
     if (!userInfo) {
       console.warn("No user info found in localStorage");
