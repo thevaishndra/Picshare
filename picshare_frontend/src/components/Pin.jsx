@@ -12,7 +12,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
   const navigate = useNavigate();
   const user = fetchUser();
 
-  const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.googleId))?.length;
+  const alreadySaved = !!(save?.filter?.((item) => item?.postedBy?._id === user.googleId))?.length;
   //!! -> returns the value in boolean
   //1, [2, 3, 1] -> [1].length -> 1 -> !1 -> false -> !false -> true
   //4, [2, 3, 1] -> [].length -> 0 -> !0 -> true -> !true -> false
@@ -60,7 +60,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
             style={{ height: "100%" }}
           >
             <div className="flex item-center justify">
-              <div classname="flex gap-2">
+              <div className="flex gap-2">
                 <a
                   href={`${image?.asset?.url}?dl=`} //dl triggers download
                   download
@@ -135,3 +135,5 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save } }) => {
     </div>
   );
 };
+
+export default Pin;
