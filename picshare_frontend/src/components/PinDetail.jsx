@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { MdDownloadForOffline } from 'react-icons/md'
 import { Link, useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid';
-import { client, urlFor } from '../client'
+import { client, urlfor } from '../client'
 import MasonryLayout from './MasonryLayout';
 import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/data';
 import Spinner from './Spinner'
@@ -76,7 +76,7 @@ const PinDetail = ({ user }) => {
     >
       <div className="flex justify-center items-center md:items-start flex-initial">
         <img
-          src={pinDetail?.image && urlFor(pinDetail.image).url()}
+          src={pinDetail?.image && urlfor(pinDetail.image).url()}
           className="rounded-t-3xl rounded-b-lg"
           alt="user-post"
         />
