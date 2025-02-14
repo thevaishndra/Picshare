@@ -13,4 +13,4 @@ console.log("Sanity Token:", import.meta.env.VITE_APP_SANITY_TOKEN);
 
 
 const builder = imageUrlBuilder(client);
-export const urlfor = (source) => builder.image(source);
+export const urlFor = (source) => builder.image(source);
