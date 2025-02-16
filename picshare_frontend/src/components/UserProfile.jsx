@@ -6,14 +6,12 @@ import { client } from '../client';
 import MasonryLayout from './MasonryLayout';
 import Spinner from './Spinner';
 
-const randomImage = 'https://source.unsplash.com/1600x900/?nature,photography,technology'
-
 const activeBtnStyles = 'bg-red-500 text-white font-bold p-2 rounded-full w-20 outline-none';
 const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-full w-20 outline-none';
 
 const UserProfile = () => {
-  const [user, setUser] = useState(null);
-  const [pins, setPins] = useState(null);
+  const [user, setUser] = useState();
+  const [pins, setPins] = useState();
   const [text, setText] = useState('created');
   const [activate, setActivate] = useState('created');
   const navigate = useNavigate();
@@ -29,7 +27,7 @@ const UserProfile = () => {
   }, [userId]);
 
   useEffect(() => {
-    if(text === 'Created'){
+    if(text === 'created'){
       const createdPinsQuery = userCreatedPinsQuery(userId);
       client.fetch(createdPinsQuery).then((data) => {
         setPins(data);
@@ -56,7 +54,7 @@ const UserProfile = () => {
         <div className="relative flex flex-col mb-7">
           <div className="flex flex-col justify-center items-center">
             <img
-              src={randomImage}
+              src="https://source.unsplash.com/1600x900/?nature,photography,technology"
               className="w-full h-370 2xl:h-510 shadow-lg object-cover"
               alt="banner-pic"
             />
@@ -108,11 +106,15 @@ const UserProfile = () => {
             </button>
           </div>
 
-          <div className='px-2' >
-            {pins?.length ? <MasonryLayout pins={pins} /> : 
-            <div className='flex justify-centerfont-bold items-center w-full text-xl mt-2' >No pins found </div> }
+          <div className="px-2">
+            {pins?.length ? (
+              <MasonryLayout pins={pins} />
+            ) : (
+              <div className="flex justify-centerfont-bold items-center w-full text-xl mt-2">
+                No pins found{" "}
+              </div>
+            )}
           </div>
-
         </div>
       </div>
     </div>
