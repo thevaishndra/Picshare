@@ -33,43 +33,34 @@ const Pin = ({ pin }) => {
   alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
 
   const savePin = (id) => {
-    if (!pinDetail) return; // Ensure pinDetail is loaded
+    if (alreadySaved?.length > 0) return; // Prevent multiple saves
 
-    const isAlreadySaved = pinDetail?.save?.some(
-      (item) => item?.postedBy?._id === user?.sub
-    );
+    setSavingPost(true);
 
-    if (!isAlreadySaved) {
-      setSavingPost(true);
+    const newSaveItem = {
+      _key: uuidv4(),
+      userId: user?.sub,
+      postedBy: {
+        _type: "postedBy",
+        _ref: user?.sub,
+      },
+    };
 
-      const newSaveItem = {
-        _key: uuidv4(), 
-        userId: user?.sub,
-        postedBy: {
-          _type: "postedBy",
-          _ref: user?.sub,
-        },
-      };
-
-      client
-        .patch(id)
-        .setIfMissing({ save: [] })
-        .insert("after", "save[-1]", [newSaveItem])
-        .commit()
-        .then(() => {
-          console.log("Pin saved successfully!");
-
-          setPinDetail((prev) => ({
-            ...prev,
-            save: [...(prev?.save || []), { postedBy: { _id: user?.sub } }],
-          }));
-        })
-        .catch((err) => {
-          console.error("Error saving pin:", err);
-        })
-        .finally(() => setSavingPost(false));
-    }
+    client
+      .patch(id)
+      .setIfMissing({ save: [] })
+      .insert("after", "save[-1]", [newSaveItem])
+      .commit()
+      .then(() => {
+        console.log("Pin saved successfully!");
+        window.location.reload(); // Reload to reflect saved state
+      })
+      .catch((err) => {
+        console.error("Error saving pin:", err);
+      })
+      .finally(() => setSavingPost(false));
   };
+
 
   return (
     <div className="m-2">

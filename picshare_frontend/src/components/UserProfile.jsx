@@ -14,12 +14,12 @@ const UserProfile = () => {
   const [pins, setPins] = useState();
   const [text, setText] = useState('created');
   const [activate, setActivate] = useState('created');
+
   const navigate = useNavigate();
   const { userId } = useParams();
 
   useEffect(() => {
     const query = userQuery(userId);
-
     client.fetch(query)
       .then((data) => {
         setUser(data[0]);
@@ -54,11 +54,6 @@ const UserProfile = () => {
         <div className="relative flex flex-col mb-7">
           <div className="flex flex-col justify-center items-center">
             <img
-              src="https://source.unsplash.com/1600x900/?nature,photography,technology"
-              className="w-full h-370 2xl:h-510 shadow-lg object-cover"
-              alt="banner-pic"
-            />
-            <img
               className="rounded-full w-20 h-20 mt-10 shadow-xl object-cover"
               src={user.image}
               alt="user-pic"
@@ -66,18 +61,15 @@ const UserProfile = () => {
             <h1 className="font-bold text-3xl text-center mt-3">
               {user.userName}
             </h1>
-            <div className="absolute top-0 z-1 right-0 p-2 ">
-              {userId === user.googleId && (
-                <div className="absolute top-0 right-0 p-2">
-                  <button
-                    className="bg-white p-2 rounded-full cursor-pointer outline-none shadow-md"
-                    onClick={logout}
-                  >
-                    <AiOutlineLogout color="red" fontSize={21} />
-                  </button>
-                </div>
-              )}
-            </div>
+
+            {user && user._id === userId && (
+              <button
+                className="absolute top-2 right-2 bg-white p-2 rounded-full cursor-pointer outline-none shadow-md"
+                onClick={logout}
+              >
+                <AiOutlineLogout color="red" fontSize={21} />
+              </button>
+            )}
           </div>
           <div className="text-center mb-7">
             <button
