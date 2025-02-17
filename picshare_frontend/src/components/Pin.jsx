@@ -32,34 +32,35 @@ const Pin = ({ pin }) => {
 
   alreadySaved = alreadySaved?.length > 0 ? alreadySaved : [];
 
-  const savePin = (id) => {
-    if (alreadySaved?.length > 0) return; // Prevent multiple saves
+ const savePin = (id) => {
+   if (alreadySaved?.length > 0) return; // Prevent multiple saves
 
-    setSavingPost(true);
+   setSavingPost(true); // Show saving state
 
-    const newSaveItem = {
-      _key: uuidv4(),
-      userId: user?.sub,
-      postedBy: {
-        _type: "postedBy",
-        _ref: user?.sub,
-      },
-    };
+   const newSaveItem = {
+     _key: uuidv4(),
+     userId: user?.sub,
+     postedBy: {
+       _type: "postedBy",
+       _ref: user?.sub,
+     },
+   };
 
-    client
-      .patch(id)
-      .setIfMissing({ save: [] })
-      .insert("after", "save[-1]", [newSaveItem])
-      .commit()
-      .then(() => {
-        console.log("Pin saved successfully!");
-        window.location.reload(); // Reload to reflect saved state
-      })
-      .catch((err) => {
-        console.error("Error saving pin:", err);
-      })
-      .finally(() => setSavingPost(false));
-  };
+   client
+     .patch(id)
+     .setIfMissing({ save: [] })
+     .insert("after", "save[-1]", [newSaveItem])
+     .commit()
+     .then(() => {
+       console.log("Pin saved successfully!");
+       setIsSaved(true); // Update the saved state locally to reflect it
+     })
+     .catch((err) => {
+       console.error("Error saving pin:", err);
+       // Optionally, you can show an error state or revert the "saving" state
+     })
+     .finally(() => setSavingPost(false)); // Reset "saving" state
+ };
 
 
   return (
@@ -100,7 +101,7 @@ const Pin = ({ pin }) => {
                   type="button"
                   className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outline-none"
                 >
-                   Saved
+                  Saved
                 </button>
               ) : (
                 <button
@@ -111,7 +112,7 @@ const Pin = ({ pin }) => {
                   type="button"
                   className="bg-red-500 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outline-none"
                 >
-                   {savingPost ? "Saving" : "Save"}
+                  {savingPost ? "Saving" : "Save"}
                 </button>
               )}
             </div>

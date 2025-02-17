@@ -11,42 +11,39 @@ const notActiveBtnStyles = 'bg-primary mr-4 text-black font-bold p-2 rounded-ful
 
 const UserProfile = () => {
   const [user, setUser] = useState();
-  const [pins, setPins] = useState();
-  const [text, setText] = useState('created');
-  const [activate, setActivate] = useState('created');
+  const [pins, setPins] = useState([]);
+  const [text, setText] = useState("created"); // Handle both view and active button state
 
   const navigate = useNavigate();
   const { userId } = useParams();
 
   useEffect(() => {
     const query = userQuery(userId);
-    client.fetch(query)
-      .then((data) => {
-        setUser(data[0]);
-      })
+    client.fetch(query).then((data) => {
+      setUser(data[0]);
+    });
   }, [userId]);
 
   useEffect(() => {
-    if(text === 'created'){
-      const createdPinsQuery = userCreatedPinsQuery(userId);
-      client.fetch(createdPinsQuery).then((data) => {
-        setPins(data);
-      });
-    } else {
-      const savedPinsQuery = userSavedPinsQuery(userId);
-      client.fetch(savedPinsQuery).then((data) => {
-        setPins(data);
-      });
-    }
-  }, [text, userId])
+    const fetchPins = async () => {
+      const query =
+        text === "created"
+          ? userCreatedPinsQuery(userId)
+          : userSavedPinsQuery(userId);
+      const data = await client.fetch(query);
+      setPins(data);
+    };
+    fetchPins();
+  }, [text, userId]);
 
   const logout = () => {
     localStorage.clear();
-    navigate('/login');
-  }
+    navigate("/login");
+  };
 
-  if(!user) {
-    return <Spinner message="Loading profile..." />  }
+  if (!user) {
+    return <Spinner message="Loading profile..." />;
+  }
 
   return (
     <div className="relative pb-2 h-full justify-center items-center">
@@ -74,25 +71,19 @@ const UserProfile = () => {
           <div className="text-center mb-7">
             <button
               type="button"
-              onClick={(e) => {
-                setText(e.target.textContent);
-                setActivate("created");
-              }}
+              onClick={() => setText("created")}
               className={`${
-                activate === "created" ? activeBtnStyles : notActiveBtnStyles
-              } `}
+                text === "created" ? activeBtnStyles : notActiveBtnStyles
+              }`}
             >
               Created
             </button>
             <button
               type="button"
-              onClick={(e) => {
-                setText(e.target.textContent);
-                setActivate("saved");
-              }}
+              onClick={() => setText("saved")}
               className={`${
-                activate === "saved" ? activeBtnStyles : notActiveBtnStyles
-              } `}
+                text === "saved" ? activeBtnStyles : notActiveBtnStyles
+              }`}
             >
               Saved
             </button>
@@ -102,8 +93,8 @@ const UserProfile = () => {
             {pins?.length ? (
               <MasonryLayout pins={pins} />
             ) : (
-              <div className="flex justify-centerfont-bold items-center w-full text-xl mt-2">
-                No pins found{" "}
+              <div className="flex justify-center font-bold items-center w-full text-xl mt-2">
+                No pins found
               </div>
             )}
           </div>
@@ -111,6 +102,6 @@ const UserProfile = () => {
       </div>
     </div>
   );
-}
+};
 
-export default UserProfile
+export default UserProfile;
