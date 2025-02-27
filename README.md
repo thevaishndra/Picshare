@@ -4,8 +4,8 @@ PicShare is a modern and user-friendly image-sharing application where users can
 
 ## Screenshots
 
-- **Signup Page**: ![Signup](./images/Signin.png)
-- **Chat Interface**: ![Chat](./images/home.png)
+- **Signin Page**: ![Signup](./images/Signin.png)
+- **Home Page**: ![Chat](./images/home.png)
 
 ## ✨ Features
 
