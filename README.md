@@ -1,4 +1,4 @@
-# 📸 PicShare - A Social Media App for Sharing Images 
+# 📸 Picshare - A Social Media App for Sharing Images 
 
 PicShare is a modern and user-friendly image-sharing application where users can upload, save, and explore a variety of images. Built using the Full stack along with Google OAuth authentication, PicShare provides a seamless experience for discovering and sharing visual content.
 
