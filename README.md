@@ -2,6 +2,11 @@
 
 PicShare is a modern and user-friendly image-sharing application where users can upload, save, and explore a variety of images. Built using the Full stack along with Google OAuth authentication, PicShare provides a seamless experience for discovering and sharing visual content.
 
+## Screenshots
+
+- **Signup Page**: ![Signup](./images/Signin.png)
+- **Chat Interface**: ![Chat](./images/home.png)
+
 ## ✨ Features
 
 🔹 **User Authentication:** Google OAuth for secure login/logout.
